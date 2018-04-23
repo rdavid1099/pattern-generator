@@ -6,27 +6,33 @@ class PatternGeneratorTest < Minitest::Test
     pattern = '.'
     pg = PatternGenerator.new(pattern)
 
-    assert_equal true, pg.verify('r')
     assert_equal true, pg.verify('F')
     assert_equal false, pg.verify('0')
+  end
+
+  def test_it_verifies_upper_and_lowercase_characters
+    pattern = '.'
+    pg = PatternGenerator.new(pattern)
+
+    assert_equal true, pg.verify('r')
+    assert_equal true, pg.verify('R')
   end
 
   def test_it_can_verify_a_single_numeric_character
     pattern = '#'
     pg = PatternGenerator.new(pattern)
 
-    assert_equal true, pg.verify('0')
     assert_equal true, pg.verify('3')
-    assert_equal false, pg.verify('w')
+    assert_equal false, pg.verify('W')
   end
 
-  def test_it_verifies_patterns
+  def test_it_verifies_more_complex_patterns
     pattern = '.#.'
     pg = PatternGenerator.new(pattern)
 
     assert_equal true, pg.verify('A3A')
-    assert_equal false, pg.verify('AAA')
     assert_equal true, pg.verify('a2a')
+    assert_equal false, pg.verify('AAA')
   end
 
   def test_it_verifies_patterns_with_specific_elements
@@ -46,7 +52,14 @@ class PatternGeneratorTest < Minitest::Test
     assert_equal 'A1B', pg.generate(27)
     assert_equal 'Z9Z', pg.generate(6759)
     assert_equal 'Z9Y', pg.generate(6758)
-    assert_equal false, pg.generate(10000)
+  end
+
+  def test_it_raises_exception_if_invalid_valure_is_passed_to_generate
+    pattern = '.#.'
+    pg = PatternGenerator.new(pattern)
+
+    assert_raises(ArgumentError) { pg.generate(10000) }
+    assert_raises(ArgumentError) { pg.generate(-25) }
   end
 
   def test_it_generates_the_total_available_patterns
