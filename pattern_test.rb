@@ -2,7 +2,25 @@ require 'minitest/autorun'
 require_relative 'alphanumeric_pattern_generator'
 
 class PatternGeneratorTest < Minitest::Test
-  def test_pattern_generator_verifies_patterns
+  def test_it_can_verify_a_single_alphabetic_character
+    pattern = '.'
+    pg = PatternGenerator.new(pattern)
+
+    assert_equal true, pg.verify('r')
+    assert_equal true, pg.verify('F')
+    assert_equal false, pg.verify('0')
+  end
+
+  def test_it_can_verify_a_single_numeric_character
+    pattern = '#'
+    pg = PatternGenerator.new(pattern)
+
+    assert_equal true, pg.verify('0')
+    assert_equal true, pg.verify('3')
+    assert_equal false, pg.verify('w')
+  end
+
+  def test_it_verifies_patterns
     pattern = '.#.'
     pg = PatternGenerator.new(pattern)
 
@@ -11,7 +29,7 @@ class PatternGeneratorTest < Minitest::Test
     assert_equal true, pg.verify('a2a')
   end
 
-  def test_pattern_generator_verifies_patterns_with_specific_elements
+  def test_it_verifies_patterns_with_specific_elements
     pattern = '.##ZA3.#'
     pg = PatternGenerator.new(pattern)
 
@@ -20,7 +38,7 @@ class PatternGeneratorTest < Minitest::Test
     assert_equal false, pg.verify('a23az3h1')
   end
 
-  def test_pattern_generator_generates_nth_value_of_patterns
+  def test_it_generates_nth_value_of_patterns
     pattern = '.#.'
     pg = PatternGenerator.new(pattern)
 
@@ -31,7 +49,7 @@ class PatternGeneratorTest < Minitest::Test
     assert_equal false, pg.generate(10000)
   end
 
-  def test_pattern_generator_generates_the_total_available_patterns
+  def test_it_generates_the_total_available_patterns
     pattern = '.#.'
     pg = PatternGenerator.new(pattern)
 
