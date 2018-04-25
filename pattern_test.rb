@@ -44,6 +44,14 @@ class PatternGeneratorTest < Minitest::Test
     assert_equal false, pg.verify('a23az3h1')
   end
 
+  def test_it_verifies_patterns_with_specific_elements_in_different_spots
+    pattern = 'A#23.9.F'
+    pg = PatternGenerator.new(pattern)
+
+    assert_equal true, pg.verify('A523B9CF')
+    assert_equal false, pg.verify('a123a8hf')
+  end
+
   def test_it_generates_nth_value_of_patterns
     pattern = '.#.'
     pg = PatternGenerator.new(pattern)
