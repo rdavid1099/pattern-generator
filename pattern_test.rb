@@ -18,12 +18,28 @@ class PatternGeneratorTest < Minitest::Test
     assert_equal true, pg.verify('R')
   end
 
+  def test_it_generates_a_single_character_pattern
+    pattern = '.'
+    pg = PatternGenerator.new(pattern)
+
+    assert /[A-Z]/.match(pg.generate)
+    refute /[0-9]/.match(pg.generate)
+  end
+
   def test_it_can_verify_a_single_numeric_character
     pattern = '#'
     pg = PatternGenerator.new(pattern)
 
     assert_equal true, pg.verify('3')
     assert_equal false, pg.verify('W')
+  end
+
+  def test_it_generates_a_single_numeric_pattern
+    pattern = '#'
+    pg = PatternGenerator.new(pattern)
+
+    assert /[0-9]/.match(pg.generate)
+    refute /[A-Z]/.match(pg.generate)
   end
 
   def test_it_verifies_more_complex_patterns
@@ -33,6 +49,13 @@ class PatternGeneratorTest < Minitest::Test
     assert_equal true, pg.verify('A3A')
     assert_equal true, pg.verify('a2a')
     assert_equal false, pg.verify('AAA')
+  end
+
+  def test_it_generates_more_complex_patterns
+    pattern = '.#.'
+    pg = PatternGenerator.new(pattern)
+
+    assert /[A-Z][0-9][A-Z]/.match(pg.generate)
   end
 
   def test_it_verifies_patterns_with_specific_elements
@@ -50,6 +73,13 @@ class PatternGeneratorTest < Minitest::Test
 
     assert_equal true, pg.verify('A523B9CF')
     assert_equal false, pg.verify('a123a8hf')
+  end
+
+  def test_it_generates_patterns_with_constants
+    pattern = 'A#23..#'
+    pg = PatternGenerator.new(pattern)
+
+    assert /A[0-9]23[A-Z][A-Z][0-9]/.match(pg.generate)
   end
 
   def test_it_generates_nth_value_of_patterns
@@ -75,6 +105,13 @@ class PatternGeneratorTest < Minitest::Test
     pg = PatternGenerator.new(pattern)
 
     assert_equal 6760, pg.total_available
+  end
+
+  def test_it_generates_the_total_available_patterns_with_constants
+    pattern = '.1.'
+    pg = PatternGenerator.new(pattern)
+
+    assert_equal 676, pg.total_available
   end
 
   # Problems in exercism evolve over time, as we find better ways to ask
