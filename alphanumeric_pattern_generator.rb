@@ -45,6 +45,8 @@ class PatternGenerator
       value = @number % pattern_elements[element].count
       @number /= pattern_elements[element].count
       pattern_elements[element][value]
+    else
+      element
     end
   end
 

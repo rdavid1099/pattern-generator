@@ -100,6 +100,25 @@ class PatternGeneratorTest < Minitest::Test
     assert_raises(ArgumentError) { pg.generate(-25) }
   end
 
+  def test_it_generates_nth_value_of_patterns
+    pattern = '.#.'
+    pg = PatternGenerator.new(pattern)
+
+    assert_equal 'A0A', pg.generate(0)
+    assert_equal 'A1B', pg.generate(27)
+    assert_equal 'Z9Z', pg.generate(6759)
+    assert_equal 'Z9Y', pg.generate(6758)
+  end
+
+  def test_it_generates_nth_value_of_patterns_with_constants
+    pattern = 'R#..W'
+    pg = PatternGenerator.new(pattern)
+
+    assert_equal 'R0AAW', pg.generate(0)
+    assert_equal 'R0BAW', pg.generate(26)
+    assert_equal 'R9ZYW', pg.generate(6758)
+  end
+
   def test_it_generates_the_total_available_patterns
     pattern = '.#.'
     pg = PatternGenerator.new(pattern)
