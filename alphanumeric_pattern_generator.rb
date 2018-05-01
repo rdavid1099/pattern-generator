@@ -2,7 +2,7 @@ module BookKeeping
   VERSION = 1
 end
 
-class PatternGenerator
+class AlphanumericPatternGenerator
   def initialize(pattern)
     @pattern = pattern
     @pattern_elements = get_pattern_elements
